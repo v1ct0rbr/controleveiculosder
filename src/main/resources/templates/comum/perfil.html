@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layout/LayoutPadrao :: layout(~{::title},~{::link[class='page_style']},~{::script[class='page_js']},~{::div[id='conteudo']})">
+<head>
+<link rel="stylesheet"
+	th:href="@{/assets/admin/css/page_veiculo_cadastro.css}"
+	class="page_style" />
+
+</head>
+<title>Perfil de Usuário</title>
+</head>
+<div id="conteudo">
+	<section class="content-header">
+		<h1>Atualização de Senha</h1>
+		<ol class="breadcrumb">
+			<li><a th:href="@{/home}"><i class="fa fa-dashboard"></i>Home</a></li>
+			<li class="active">Perfil</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Alteração de senha</h3>
+
+
+			</div>
+			<form class="form-horizontal" method="post"
+				th:attr="data-url=${#httpServletRequest.requestURI}"
+				th:action="@{/comum/alterar_senha}" th:object="${alterarSenha}"
+				id="form_page">
+				<div class="box-body">
+					<div th:replace="fragments/MensagemGeral"></div>
+					<div th:replace="fragments/MensagemErros :: mensagens_erro"></div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group has-feedback col-sm-12"
+								th:classappend="${#fields.hasErrors('senhaAtual')} ? 'has-error'">
+								<label for="password" class="col-sm-4 control-label">Senha
+									Atual</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-lock"></i>
+										</div>
+										<input type="password" class="form-control"
+											th:field="*{senhaAtual}" id="password" required="required" />
+									</div>
+									<div class="help-block with-errors"></div>
+								</div>
+
+							</div>
+
+							<div class="form-group has-feedback col-sm-12"
+								th:classappend="${#fields.hasErrors('password1')} ? 'has-error'">
+								<label for="password2" class="col-sm-4 control-label">Digite
+									sua senha:</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-lock"></i>
+										</div>
+										<input type="password" class="form-control"
+											th:field="*{password1}" id="password1" required="required" />
+									</div>
+									<div class="help-block with-errors"></div>
+								</div>
+
+							</div>
+							<div class="form-group has-feedback col-sm-12"
+								th:classappend="${#fields.hasErrors('password2')} ? 'has-error'">
+								<label for="password2" class="col-sm-4 control-label">Confirme
+									a senha:</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-lock"></i>
+										</div>
+										<input type="password" class="form-control"
+											th:field="*{password2}" id="password2" required="required"
+											data-match="#password1"
+											data-match-error="As senhas não coincidem" />
+									</div>
+									<div class="help-block with-errors"></div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<!-- /.box-header -->
+				</div>
+				<div class="box-footer">
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="button" id="submit_button" class="btn btn-primary">Salvar</button>
+							<button type="reset" class="btn btn-warning" id="frm_clear">Novo</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+
+</div>
+
+
+<script th:src="@{/assets/admin/js/page_alterar_senha.js}"
+	class="page_js"></script>
+
+</html>

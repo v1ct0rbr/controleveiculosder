@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="creditos" tabindex="-1" role="dialog" th:fragment="creditos"
+	aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Créditos</h4>
+			</div>
+			<div class="modal-body">
+				<table
+					style="border: 0; border-collapse: collapse; margin: 0; padding: 0; max-width: 580px;">
+					<tbody>
+						<tr>
+							<td style="border-bottom: 1px solid #ddd;" align="left"><span
+								id="input-name"
+								style="text-align: left; font-size: 16px; font-weight: bold; color: orange;">Victor
+									Henrique Queiroga de Oliveira</span> <br /> <span id="input-role"
+								style="font-size: 12px;">Desenvolvedor de sistemas</span> - <span
+								id="input-company" style="font-size: 12px;">Departamento
+									de Estradas e Rodagens da Para&iacute;ba</span> <br /> <br /></td>
+						</tr>
+					</tbody>
+				</table>
+				<table
+					style="border: 0; border-collapse: collapse; margin: 0; padding: 0; max-width: 580px;">
+					<tbody>
+						<tr>
+							<td style="padding-top: 10px;" align="left">
+								<table style="width: 100%;">
+									<tbody>
+										
+										<tr id="parent-phone1">
+											<td><b> <span
+													style="font-size: 10px; color: #000; font-family: sans-serif;">Telefone:</span>
+											</b></td>
+											<td><span id="input-phone2" style="font-size: 13px;">+55
+													83 32162850</span></td>
+										</tr>
+										<tr id="parent-mobile-phone">
+											<td><b> <span
+													style="font-size: 10px; color: #000; font-family: sans-serif;">Celular:</span>
+											</b></td>
+											<td><span id="input-mobile-phone"
+												style="font-size: 13px;">+55 83 996707939</span></td>
+										</tr>
+										<tr id="parent-address">
+											<td><b> <span
+													style="font-size: 10px; color: #000; font-family: sans-serif;">Endere&ccedil;o:</span>
+											</b></td>
+											<td><span id="input-address" style="font-size: 13px;">
+													Av. Duarte da Silveira - Centro, Jo&atilde;o Pessoa - PB,
+													58013-280</span></td>
+										</tr>
+										<tr id="parent-email">
+											<td><b> <span
+													style="font-size: 10px; color: #000; font-family: sans-serif;">E-mail:</span>
+											</b></td>
+											<td><span id="input-email" style="font-size: 13px;">victorqueiroga@der.pb.gov.br</span></td>
+										</tr>
+										<tr id="parent-website">
+											<td><b> <span
+													style="font-size: 10px; color: #000; font-family: sans-serif;">Site:</span>
+											</b></td>
+											<td><span id="input-website" style="font-size: 13px;">http://www.der.pb.gov.br</span></td>
+										</tr>
+									</tbody>
+								</table>
+					</td>
+					<td style="border-left: 4px solid #ddd; text-align: center"><span
+						style="text-align: center; padding: 10px; display: block;">
+							<img th:src="@{/assets/geral/images/logo-der.png}" height="134"
+							width="135" />
+					</span></td>
+					</tr>
+					</tbody>
+				</table>
+				<div></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</html>

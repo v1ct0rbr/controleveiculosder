@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layout/LayoutPadrao :: layout(~{::title},~{::link[class='page_style']},~{::script[class='page_js']},~{::div[id='conteudo']})"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<title>Lista de Veículos</title>
+
+<link class="page_style" rel="stylesheet"
+	th:href="@{/assets/admin/css/page_veiculo_listar.css}" />
+</head>
+<body>
+
+	<div id="conteudo">
+		<section class="content-header">
+			<h1>Veículos cadastrados</h1>
+			<ol class="breadcrumb">
+				<li><a href="#"><i class="fa fa-dashboard"></i>Menu</a></li>
+				<li class="active">Veículos</li>
+				<li>Lista</li>
+			</ol>
+		</section>
+
+		<section class="content">
+			<div class="box box-primary">
+				<div class="box-header with-border">
+					<h3 class="box-title">Listagem</h3>
+					<a sec:authorize="hasAuthority('CVD')" class="pull-right"
+						th:href="@{/menu/veiculos/novo}"><i class="fa fa-file"
+						aria-hidden="true"></i> Cadastrar novo</a>
+				</div>
+				<div class="box-body">
+
+
+					<div class="tab-content clearfix">
+						<form method="get" class="form-inline" id="page_form"  th:attr="data-list-url=@{'/'+${url_base} + '/listar'}"
+							
+							th:action="@{/menu/veiculos/listar}" th:object="${filtro}">
+							<div th:replace="fragments/MensagemGeral :: mensagens_geral"></div>
+
+							<div class="form-group">
+								<input class="form-control" placeholder="Nº do Adesivo"
+									th:field="*{adesivo}" id="filtro_adesivo" maxlength="10" />
+							</div>
+							<div class="form-group">
+								<input class="form-control" placeholder="Placa"
+									id="filtro_placa" th:field="*{placa}" maxlength="10" />
+							</div>
+							<div class="form-group">
+								<select class="form-control" th:field="*{tipoveiculoId}"
+									id="filtro_tipoveiculo">
+									<option value="0">Tipo de Veículo</option>
+									<option th:each="tip: ${todosTiposVeiculos}"
+										th:value="${tip.id}" th:text="${tip}"></option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input class="form-control"
+									placeholder="Referência (modelo/marca)" id="filtro_descricao"
+									maxlength="100" th:field="*{modelo}" />
+							</div>
+							<div class="form-group">
+								<input class="form-control" placeholder="Funcionário"
+									maxlength="100" th:field="*{funcionarioNome}"
+									id="filtro_funcionario" />
+							</div>
+							<div class="form-group">
+								<select class="form-control" th:field="*{secretariaId}"
+									id="filtro_secretaria">
+									<option value="0">Secretaria</option>
+									<option th:each="sec: ${todasSecretarias}" th:value="${sec.id}"
+										th:text="${sec}"></option>
+								</select>
+							</div>
+							<div class="form-group">
+								<input type="hidden" th:value="*{setorId}" id="setor_id" /> <select
+									class="form-control" id="filtro_setor" th:field="*{setorId}">
+									<option value="0">Setor</option>
+									<option th:each="setor: ${todosSetores}" th:value="${setor.id}"
+										th:text="${setor}"></option>
+								</select>
+							</div>
+
+							<div class="btn-group">
+								<input type="hidden" th:field="*{sortBy}" id="sort_by" /> <input
+									type="hidden" th:field="*{sortByMethod}" id="sort_method" />
+								<button id="filtrar_dados" class="btn btn-default">
+									<span class="glyphicon glyphicon-search"></span> Pesquisar
+								</button>
+								<button sec:authorize="hasAuthority('CVD')" id="gerar_relatorio"
+									type="submit" class="btn btn-default" data-impressao="veiculos">
+									<i class="glyphicon glyphicon-print"></i> imprimir
+								</button>
+								<button id="reset_filtro" type="button" class="btn btn-default">
+									<i class="fa fa-eraser"></i> Limpar
+								</button>
+							</div>
+						</form>
+						<br />
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped">
+								<thead>
+									<tr>
+										<th class="text-center col-md-2">Funcionário<i
+											data-option="3"
+											class="sort btn pull-right fa fa-sort-alpha-asc"
+											th:classappend="${(filtro.sortBy == 3?'active ':'') + (filtro.sortBy == 3 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+											id="sort_tomb_estado"></i></th>
+										<th class="text-center col-md-2">Secretaria<i
+											data-option="4"
+											class="sort btn pull-right fa fa-sort-alpha-asc"
+											th:classappend="${(filtro.sortBy == 4?'active ':'') + (filtro.sortBy == 4 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+											id="sort_descricao"></i></th>
+										<th class="text-center col-md-2">Setor<i data-option="5"
+											class="sort btn pull-right fa fa-sort-alpha-asc"
+											th:classappend="${(filtro.sortBy == 5?'active ':'') + (filtro.sortBy == 5 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+											id="sort_tipo"></i></th>
+										<th class="text-center col-md-2">Referência<i
+											data-option="6"
+											class="sort btn pull-right fa fa-sort-alpha-asc"
+											th:classappend="${(filtro.sortBy == 6?'active ':'') + (filtro.sortBy == 6 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+											id="sort_tomb_estado"></i></th>
+										<th class="text-center col-md-2">Placa<i data-option="2"
+											class="sort btn pull-right fa fa-sort-alpha-asc"
+											th:classappend="${(filtro.sortBy == 2?'active ':'') + (filtro.sortBy == 2 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+											id="sort_tombamento"></i></th>
+										<th class="text-center col-md-1">Celular</th>
+										<th class="text-center col-md-2">adesivo<i
+											data-option="1"
+											class="sort btn pull-right fa fa-sort-alpha-asc"
+											th:classappend="${(filtro.sortBy == 1?'active ':'') + (filtro.sortBy == 1 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+											id="sort_id"></i></th>
+										<th class="col-md-1" sec:authorize="hasAuthority('CVD')">Opções</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="veiculo: ${page.content}">
+										<td class="text-left"
+											th:text="${veiculo.funcionario != null?veiculo.funcionario:'---'}"></td>
+										<td class="text-left"><span
+											th:text="${veiculo.funcionario != null ? veiculo.funcionario.setor.secretaria:'---'}"></span>
+										</td>
+										<td class="text-left"
+											th:text="${veiculo.funcionario != null?veiculo.funcionario.setor:'---'}"></td>
+										<td class="text-left" th:text="${veiculo.modeloVeiculo}"></td>
+										<td class="text-center"><span th:text="${veiculo.placa}"
+											id="veiculo_placa"></span></td>
+										<td class="text-center"><span class="cel"
+											th:if="${veiculo.funcionario.celular != null and !#strings.isEmpty(veiculo.funcionario.celular)}"
+											th:text="${veiculo.funcionario.celular}"></span></td>
+										<td class="text-center" th:text="${veiculo.adesivo}"></td>
+
+										<td class="text-center opcoes"
+											sec:authorize="hasAuthority('CVD')"><a
+											class="btn btn-default"
+											th:href="@{/menu/veiculos/{id}(id=${veiculo.id})}"> <span
+												class="fa fa-pencil" data-toggle="tooltip"
+												data-placement="bottom" title="Editar"></span>
+										</a> <a class="btn btn-danger" data-toggle="modal"
+											data-target="#confirmacaoExclusaoModal"
+											th:attr="data-codigo=${veiculo.id}, data-descricao=${veiculo.placa}">
+												<span class="fa fa-trash" data-toggle="tooltip"
+												data-placement="top" title="Excluir"></span>
+										</a></td>
+									</tr>
+									<tr>
+										<td sec:authorize="hasAuthority('CVD')"
+											th:if="${#lists.isEmpty(page.content)}" colspan="8">Nenhum
+											veiculo foi encontrado</td>
+										<td sec:authorize="hasAuthority('CVD_LEITURA')"
+											th:if="${#lists.isEmpty(page.content)}" colspan="7">Nenhum
+											veiculo foi encontrado</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<nav aria-label="Page navigation">
+
+							<ul class='pagination pagination-centered'>
+								<li th:class="${page.firstPage}?'disabled':''"><span
+									th:if='${page.firstPage}'>← Primeiro</span> <a
+									th:if='${not page.firstPage}'
+									th:href='@{${page.url+"/listar"}(page=0,size=${page.size},adesivo=${adesivo},placa=${placa},tipoveiculoId=${tipoveiculoId}, modelo=${modelo},funcionarioNome=${funcionarioNome},secretariaId=${secretariaId},setorId=${setorId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'>←
+										Primeiro</a></li>
+								<li th:class="${page.hasPreviousPage}? '' : 'disabled'"><span
+									th:if='${not page.hasPreviousPage}'>«</span> <a
+									th:if='${page.hasPreviousPage}'
+									th:href='@{${page.url+"/listar"}(page=${page.number-2},size=${page.size},adesivo=${adesivo},placa=${placa}, tipoveiculoId=${tipoveiculoId},modelo=${modelo},funcionarioNome=${funcionarioNome},secretariaId=${secretariaId},setorId=${setorId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'
+									title='Go to previous page'>«</a></li>
+								<li th:each='item : ${page.items}'
+									th:class="${item.current}? 'active' : ''"><span
+									th:if='${item.current}' th:text='${item.number}'>1</span> <a
+									th:if='${not item.current}'
+									th:href='@{${page.url+"/listar"}(page=${item.number-1},size=${page.size},adesivo=${adesivo},placa=${placa},tipoveiculoId=${tipoveiculoId}, modelo=${modelo},funcionarioNome=${funcionarioNome},secretariaId=${secretariaId},setorId=${setorId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'><span
+										th:text='${item.number}'>1</span></a></li>
+								<li th:class="${page.hasNextPage}? '' : 'disabled'"><span
+									th:if='${not page.hasNextPage}'>»</span> <a
+									th:if='${page.hasNextPage}'
+									th:href='@{${page.url+"/listar"}(page=${page.number},size=${page.size},adesivo=${adesivo},placa=${placa},tipoveiculoId=${tipoveiculoId}, modelo=${modelo},funcionarioNome=${funcionarioNome},secretariaId=${secretariaId},setorId=${setorId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'
+									title='Go to next page'>»</a></li>
+								<li th:class="${page.lastPage}? 'disabled' : ''"><span
+									th:if='${page.lastPage}'>Último →</span> <a
+									th:if='${not page.lastPage}'
+									th:href='@{${page.url+"/listar"}(page=${page.totalPages - 1},size=${page.size},adesivo=${adesivo},placa=${placa},tipoveiculoId=${tipoveiculoId}, modelo=${modelo},funcionarioNome=${funcionarioNome},secretariaId=${secretariaId},setorId=${setorId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'>Último
+										→</a></li>
+							</ul>
+							<div>
+								<b>Total de Páginas:</b> <span th:text="${page.totalPages}"></span>
+								/ <b>Total de Itens:</b> <span th:text="${page.totalDeItens}"></span>
+							</div>
+						</nav>
+					</div>
+				</div>
+				<!-- form start -->
+				<div
+					th:insert="fragments/DialogoConfirmacaoExclusao :: dialogexclusao(base_url=${url_base})"></div>
+			</div>
+		</section>
+	</div>
+
+
+</body>
+
+<script th:src="@{/assets/admin/js/page_veiculo_listar.js}"
+	class="page_js"></script>
+
+
+</html>

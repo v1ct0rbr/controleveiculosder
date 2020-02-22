@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div th:fragment="mensagens_erro">
+	<div class="callout callout-danger" th:if="${#fields.hasAnyErrors()}">
+
+
+		<div th:if="${#fields.detailedErrors() != null}"
+			th:each="detailedError :${#fields.detailedErrors()}">
+			<i class="fa fa-angle-double-right"></i> <b
+				th:text="${detailedError.message}"></b>
+		</div>
+	</div>
+
+	<div class="callout callout-warning"
+		th:if="${#request.getParameter('erro_exclusao') != null}">
+		<div>
+			<i class="fa fa-angle-double-right"></i> <b>Não foi possível
+				excluir o item selecionado </b><br /> <small>Item já foi
+				excluído ou tem dependentes</small>
+		</div>
+	</div>
+</div>
+
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layout/LayoutFormGeral :: layout(~{::title},~{::link[class='page_style']},~{::script[class='page_js']},~{::section[id='conteudo']})">
+<head>
+<title>Controle do estacionamento - Login</title>
+<link rel="shortcut icon" type="image/png" class="page_style"
+	th:href="@{/assets/geral/img/icone.png}" />
+
+<link class="page_style" rel="stylesheet"
+	th:href="@{/assets/geral/css/page-login.css}" />
+
+</head>
+<section id="conteudo">
+	<div class="login-box">
+		<div class="box box-info">
+			<div class="box-header with-border">
+
+				<h3 class="box-title" style="width: 100%">
+					<i class="fa fa-lock" aria-hidden="true"></i> Autenticação / DER
+				</h3>
+
+
+			</div>
+			<!-- /.box-header -->
+			<!-- form start -->
+
+
+			<form name="f" class="form-horizontal" data-toggle="validator"
+				method="post" th:action="@{/login}">
+				<div class="box-body">
+					<div class="callout callout-danger" th:if="${param.error}"
+						th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION'].message}">
+						<span th:text="${errorMsg}">Wrong input!</span>
+					</div>
+
+					<div th:if="${param.logout}" class="callout callout-success">Você
+						saiu do sistema</div>
+
+					<div class="form-group has-feedback">
+						<label for="username" class="col-sm-2 control-label">Login</label>
+
+						<div class="col-sm-10">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-user"></i>
+								</div>
+
+								<input type="text" class="form-control" id="username"
+									name="username" placeholder="usuário" required="required"
+									autofocus="autofocus" data-error="Login é necessário" /> <span
+									class="glyphicon form-control-feedback"
+									title="login é necessário" data-toggle="tootip"></span>
+							</div>
+
+						</div>
+					</div>
+					<div class="form-group has-feedback">
+
+						<label for="password" class="col-sm-2 control-label">Password</label>
+
+						<div class="col-sm-10">
+							<div class="input-group">
+								<div class="input-group-addon">
+									<i class="fa fa-user-secret"></i>
+								</div>
+								<input type="password" class="form-control" id="password"
+									name="password" placeholder="Senha" required="required"
+									data-minlength="3" /> <span
+									class="glyphicon form-control-feedback"
+									title="login é necessário" data-toggle="tootip"></span>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+				<!-- /.box-body -->
+				<div class="box-footer">
+					<div class="form-actions">
+						<button type="reset" class="btn btn-default">Limpar</button>
+						<button type="submit" class="btn btn-info pull-right">Entrar</button>
+					</div>
+				</div>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}" />
+				<!-- /.box-footer -->
+			</form>
+		</div>
+		<div th:replace="fragments/footerdata :: footerdata"></div>
+	</div>
+</section>
+
+<script th:src="@{/assets/geral/js/validator.min.js}" class="page_js"></script>
+
+</html>

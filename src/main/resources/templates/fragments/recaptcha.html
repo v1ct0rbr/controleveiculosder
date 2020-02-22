@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div class="form-group">
+	<div class="g-recaptcha"
+		th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+	<span id="captchaError" class="alert alert-danger"
+		style="display: none"></span>
+</div>
+</html>

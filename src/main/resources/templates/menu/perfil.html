@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="layout/LayoutPadrao">
+<head>
+<th:block layout:fragment="style">
+	<link
+		th:href="@{/assets/geral/css/bootstrap-datepicker.standalone.min.css}"
+		rel="stylesheet" />
+</th:block>
+<title>Cadastro de Veículos</title>
+</head>
+<div layout:fragment="conteudo">
+	<section class="content-header">
+		<h1>Cadastro de veículos</h1>
+		<ol class="breadcrumb">
+			<li><a th:href="@{/home}"><i class="fa fa-dashboard"></i>Home</a></li>
+			<li>menu</li>
+			<li class="active">veículos</li>
+			<li class="active">Cadastro de Veículos</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Alteração de senha</h3>
+
+				<a class="pull-right" th:href="@{/admin/users}"><i
+					class="fa fa-list" aria-hidden="true"></i> Listar Usuários</a>
+			</div>
+			<form class="form-horizontal" method="post"
+				th:attr="data-url=${#httpServletRequest.requestURI}"
+				th:action="${#httpServletRequest.requestURI}"
+				th:object="${alterarSenha}" id="form_page">
+				<div class="box-body">
+					<div layout:include="fragments/MensagemGeral"></div>
+					<div layout:include="fragments/MensagemErros"></div>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group has-feedback col-sm-12"
+								th:classappend="${#fields.hasErrors('senhaAtual')} ? 'has-error'">
+								<label for="password" class="col-sm-4 control-label">Senha
+									Atual</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-puzzle-piece"></i>
+										</div>
+										<input type="password" class="form-control"
+											th:field="*{senhaAtual}" id="password" required="required" />
+									</div>
+									<div class="help-block with-errors"></div>
+								</div>
+
+							</div>
+
+							<div class="form-group has-feedback col-sm-12"
+								th:classappend="${#fields.hasErrors('password1')} ? 'has-error'">
+								<label for="password2" class="col-sm-4 control-label">Digite
+									sua senha:</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-puzzle-piece"></i>
+										</div>
+										<input type="password" class="form-control"
+											th:field="*{password1}" id="password1" required="required" />
+									</div>
+									<div class="help-block with-errors"></div>
+								</div>
+
+							</div>
+							<div class="form-group has-feedback col-sm-12"
+								th:classappend="${#fields.hasErrors('password2')} ? 'has-error'">
+								<label for="password2" class="col-sm-4 control-label">Confirme
+									a senha:</label>
+								<div class="col-sm-8">
+									<div class="input-group">
+										<div class="input-group-addon">
+											<i class="fa fa-puzzle-piece"></i>
+										</div>
+										<input type="password" class="form-control"
+											th:field="*{password2}" id="password2" required="required"
+											data-match="#password1"
+											data-match-error="As senhas não coincidem" />
+									</div>
+									<div class="help-block with-errors"></div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+					<!-- /.box-header -->
+				</div>
+				<div class="box-footer">
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="button" id="submit_button" class="btn btn-primary">Salvar</button>
+							<button type="reset" class="btn btn-warning" id="frm_clear">Novo</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+
+</div>
+<th:block layout:fragment="script">
+	<script th:src="@{/assets/geral/js/bootstrap-datepicker.min.js}"></script>
+	<script
+		th:src="@{/assets/geral/locale/bootstrap-datepicker.pt-BR.min.js}"></script>
+	<script th:src="@{/assets/geral/js/validator.min.js}"></script>
+	<script th:src="@{/assets/geral/js/bootbox.min.js}"></script>
+	<script th:src="@{/assets/admin/js/page_alterar_senha.js}"></script>
+</th:block>
+</html>

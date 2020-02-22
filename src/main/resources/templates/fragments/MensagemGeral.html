@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div th:fragment="mensagens_geral">
+	<div class="callout callout-success" role="alert"
+		th:if="${!#strings.isEmpty(mensagem)}">
+
+		<i class="fa fa-check"></i><span th:utext="${mensagem}"></span>
+	</div>
+	<div class="callout callout-success" role="alert"
+		th:if="${mensagem_sucesso != null}">
+
+		<i class="fa fa-check"></i><span th:utext="${mensagem_sucesso}"></span>
+	</div>
+
+	<div class="callout callout-danger" role="alert"
+		th:if="${!#strings.isEmpty(error) and #strings.isEmpty(error_details)}">
+		<i class="fa fa-remove"></i><span th:text="${error}"></span>
+	</div>
+	<div class="box box-danger box-solid collapsed-box"
+		th:if="${!#strings.isEmpty(error) and !#strings.isEmpty(error_details)}">
+		<div class="box-header with-border">
+			<h3 class="box-title" th:text="${error}">Expandable</h3>
+
+			<div class="box-tools pull-right">
+				<button type="button" class="btn btn-box-tool"
+					data-widget="collapse">
+					<i class="fa fa-plus"></i>
+				</button>
+			</div>
+			<!-- /.box-tools -->
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body" th:text="${error_details}">The body of the
+			box</div>
+		<!-- /.box-body -->
+	</div>
+</div>
+
+
+</html>

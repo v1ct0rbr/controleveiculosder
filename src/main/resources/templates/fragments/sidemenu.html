@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<!-- Left side column. contains the logo and sidebar -->
+<aside class="main-sidebar" th:fragment="sidemenu">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar" sec:authorize="isAuthenticated()">
+		<!-- sidebar menu: : style can be found in sidebar.less -->
+		<ul class="sidebar-menu">
+			<li class="header">MENU PRINCIPAL</li>
+
+			<li sec:authorize="hasAnyAuthority('CVD','CVD_LEITURA')"
+				class="treeview"
+				th:classappend="@{${#strings.contains(url_base,'menu/veiculos')?'active':''}}"><a
+				href="#"> <i class="fa fa-car"></i> <span>Veículos</span> <span
+					class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li sec:authorize="hasAuthority('CVD')"><a
+						th:href="@{/menu/veiculos/novo}"><i class="fa fa-plus-square"></i>Cadastrar
+							veículo</a></li>
+					<li><a th:href="@{/menu/veiculos/listar}"><i
+							class="fa fa-list"></i> Listar</a></li>
+					<li sec:authorize="hasAuthority('CVD')"><a
+						th:href="@{/menu/veiculos/tipoveiculo}"><i class="fa fa-cubes"></i>Tipos
+							de veículo</a></li>
+
+				</ul></li>
+			<li sec:authorize="hasAuthority('CVD')" class="treeview"
+				th:classappend="@{${#strings.contains(url_base,'menu/dadosauxiliares')?'active':''}}"><a
+				href="#"> <i class="fa fa-gears"></i> <span>Dados
+						Auxiliares</span> <span class="pull-right-container"> <i
+						class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+				<ul class="treeview-menu">
+					<li sec:authorize="hasAuthority('CVD')" class="treeview"
+						th:classappend="@{${#strings.contains(url_base,'menu/dadosauxiliares/funcionarios')?'active':''}}"><a
+						href="#"> <i class="fa fa-address-card-o"></i> <span>Funcionários</span>
+							<span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a th:href="@{/menu/dadosauxiliares/funcionarios/novo}"><i
+									class="fa fa-plus-square"></i> Cadastrar</a></li>
+							<li><a th:href="@{/menu/dadosauxiliares/funcionarios}"><i
+									class="fa fa-list"></i> Listar</a></li>
+						</ul></li>
+					<li sec:authorize="hasAuthority('CVD')"
+						th:classappend="@{${#strings.contains(url_base,'menu/dadosauxiliares/secretarias')?'active':''}}"><a
+						th:href="@{/menu/dadosauxiliares/secretarias}"> <i
+							class="fa fa-bank"></i> <span>Secretarias</span>
+					</a></li>
+					<li sec:authorize="hasAuthority('CVD')" class="treeview"
+						th:classappend="@{${#strings.contains(url_base,'menu/dadosauxiliares/setores')?'active':''}}"><a
+						href="#"> <i class="fa fa-sitemap"></i> <span>Setores</span><span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i></span>
+					</a>
+
+						<ul class="treeview-menu">
+							<li><a th:href="@{/menu/dadosauxiliares/setores/novo}"><i
+									class="fa fa-plus-square"></i>Cadastrar setor</a></li>
+							<li><a
+								th:href="@{/menu/dadosauxiliares/setores}"><i
+									class="fa fa-list"></i> Listar setores</a></li>
+
+						</ul></li>
+
+
+				</ul></li>
+
+
+			<li><a th:href="@{/logout}"> <i class="fa fa-sign-out"></i>
+					<span>Sair</span>
+			</a></li>
+		</ul>
+	</section>
+	<!-- /.sidebar -->
+</aside>
+</html>

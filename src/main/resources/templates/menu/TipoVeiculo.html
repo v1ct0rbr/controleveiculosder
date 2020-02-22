@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layout/LayoutPadrao :: layout(~{::title},~{::link[class='page_style']},~{::script[class='page_js']},~{::div[id='conteudo']})">
+<head>
+<title>Tipo de Veículo</title>
+<link rel="stylesheet"
+	th:href="@{/assets/geral/plugins/datatables/dataTables.bootstrap.css}"
+	class="page_style" />
+
+<link class="page_style" rel="stylesheet"
+	th:href="@{/assets/admin/css/page_tipoveiculo.css}" />
+</head>
+
+<div id="conteudo">
+
+	<section class="content-header">
+		<h1>Tipos de veículo</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i>menu</a></li>
+			<li><a href="#">Veículos</a></li>
+			<li class="active">Tipos de veículo</li>
+		</ol>
+	</section>
+	<section class="content">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Cadastro/Atualização</h3>
+
+			</div>
+			<div class="box-body with-border">
+				<form method="post" class="form-horizontal" id="form_page"
+					th:action="@{/{url}(url=${url_base})}" th:object="${tipoveiculo}">
+
+					<div th:replace="fragments/MensagemGeral"></div>
+					<div th:replace="fragments/MensagemErros :: mensagens_erro"></div>
+					<div class="form-group col-sm-1 col-xs-12 my_input">
+						<label for="id" class="control-label">ID</label> <input
+							type="number" min="1" max="65635" class="form-control"
+							autofocus="autofocus" th:field="*{id}" id="id"
+							required="required" />
+
+					</div>
+					<div class="form-group col-sm-5 col-xs-12 my_input">
+						<label for="nome" class="control-label">Descrição</label> <input
+							type="text" class="form-control" th:field="*{nome}"
+							maxlength="100" id="nome" required="required" />
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-10">
+							<button type="submit" id="submit_button" class="btn btn-primary">Salvar</button>
+							<button type="reset" id="clear_form" class="btn btn-warning">Novo</button>
+						</div>
+					</div>
+				</form>
+
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Lista de Tipos</h3>
+					</div>
+					<div class="table-response">
+						<table id="data_all_itens"
+							class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th class="text-center col-md-3">#</th>
+									<th class="text-center col-md-8">Descrição</th>
+
+									<th class="text-center col-md-1">Opções</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="tipoveiculo: ${todosTipoVeiculos}">
+									<td class="text-center" th:text="${tipoveiculo.id}"></td>
+									<td class="text-left" th:text="${tipoveiculo.nome}"></td>
+
+									<td class="text-center">
+										<div class="btn-group" role="group" aria-label="...">
+											<a class="btn btn-default"
+												th:href="@{/{url}/{id}(id=${tipoveiculo.id},url=${url_base})}">
+												<span class="glyphicon glyphicon-pencil"
+												data-toggle="tooltip" data-placement="bottom" title="Editar"></span>
+											</a> <a class="btn btn-danger" data-toggle="modal"
+												data-target="#confirmacaoExclusaoModal"
+												th:attr="data-codigo=${tipoveiculo.id}, data-descricao=${tipoveiculo.nome}">
+												<span class="glyphicon glyphicon-remove"
+												data-toggle="tooltip" data-placement="top" title="Excluir"></span>
+											</a>
+										</div>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div
+					th:insert="fragments/DialogoConfirmacaoExclusao :: dialogexclusao(base_url=${url_base})"></div>
+			</div>
+
+		</div>
+	</section>
+</div>
+
+<script
+	th:src="@{/assets/geral/plugins/datatables/jquery.dataTables.js}"
+	class="page_js"></script>
+<script
+	th:src="@{/assets/geral/plugins/datatables/dataTables.bootstrap.min.js}"
+	class="page_js"></script>
+
+<script th:src="@{/assets/admin/js/page_basic_crud.js}" class="page_js"></script>
+
+
+</html>

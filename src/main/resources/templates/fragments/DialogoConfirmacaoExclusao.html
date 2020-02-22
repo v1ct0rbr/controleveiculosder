@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div class="modal fade" id="confirmacaoExclusaoModal" tabindex="-1"
+	th:fragment="dialogexclusao(base_url)">
+	<div class="modal-dialog" th:attr="data-url-base=${base_url}">
+		<form method="POST">
+
+			<input type="hidden" name="_method" value="DELETE" />
+			<div class="modal-content panel-danger">
+				<div class="modal-header panel-heading">
+					<button type="button" class="close" data-dismiss="modal"></button>
+					<h4 class="modal-title">
+						<B>ATENÇÃO</B>
+					</h4>
+				</div>
+				<div class="modal-body">
+					<span id="tituloModal">Tem certeza que deseja apagar o item
+						?</span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-link" data-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-danger submitable">Excluir</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+</html>

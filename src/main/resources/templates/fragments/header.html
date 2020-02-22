@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<header class="main-header" th:fragment="header">
+	<!-- Logo -->
+	<a th:href="@{/menu/veiculos/listar}" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+		<span class="logo-mini"><b>DER</b></span> <!-- logo for regular state and mobile devices -->
+		<span class="logo-lg"><b>VEÍCULOS</b>-DER</span>
+	</a>
+	<!-- Header Navbar: style can be found in header.less -->
+	<nav class="navbar navbar-static-top" sec:authorize="isAuthenticated()">
+		<!-- Sidebar toggle button-->
+		<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+			role="button"> <span class="sr-only">Toggle navigation</span>
+		</a>
+		<!-- Navbar Right Menu -->
+		<div class="navbar-custom-menu">
+			<ul class="nav navbar-nav">
+
+
+				<!-- User Account: style can be found in dropdown.less -->
+				<li class="dropdown user user-menu"><a href="#"
+					class="dropdown-toggle" data-toggle="dropdown"> <img
+						th:src="@{/assets/geral/images/user_160x160.png}"
+						class="user-image" alt="User Image" /> <span class="hidden-xs"
+						sec:authentication="principal.username"></span>
+				</a>
+					<ul class="dropdown-menu">
+						<!-- User image -->
+						<li class="user-header text-left">
+							<div class="table-responsive">
+								<table
+									class="table table-bordered table-hover table-condensed info">
+									<tr class="bordered">
+										<th>Usuário logado:</th>
+										<td><span sec:authentication="name"></span></td>
+									</tr>
+									<tr class="bordered">
+										<th>Permissões</th>
+										<td><span sec:authentication="principal.authorities"></span></td>
+									</tr>
+									<tr>
+										<th>Membro desde:</th>
+										<td><span sec:authentication="principal.formattedDate"></span></td>
+									</tr>
+
+								</table>
+							</div>
+						</li>
+						<!-- 							Alexander Pierce - Web Developer <small>Member since -->
+						<!-- 									Nov. 2012</small> -->
+						<!-- Menu Body -->
+						<!-- Menu Footer-->
+						<li class="user-footer">
+							<div class="pull-left">
+								<a th:href="@{/comum/alterar_senha}"
+									class="btn btn-default btn-flat">Alterar a senha</a>
+							</div>
+							<div class="pull-right">
+								<a th:href="@{/logout}" class="btn btn-default btn-flat">Sair</a>
+							</div>
+						</li>
+					</ul></li>
+				<!-- Control Sidebar Toggle Button -->
+				<!-- 				<li><a href="#" data-toggle="control-sidebar"><i -->
+				<!-- 						class="fa fa-gears"></i></a></li> -->
+			</ul>
+		</div>
+	</nav>
+</header>
+</html>

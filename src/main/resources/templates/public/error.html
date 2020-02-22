@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layout/LayoutFormGeral :: layout(~{::title},~{::link[class='page_style']},~{::script[class='page_js']},~{::div[id='conteudo']})">
+<head>
+<title>Erro</title>
+
+<link rel="stylesheet" th:href="@{/assets/public/css/page_error.css}"
+	class="page_style" />
+
+</head>
+<div id="conteudo">
+	<section class="content-header">
+		<h1>
+			<a th:href="@{/menu/veiculos/listar}"><img
+				th:src="@{/assets/geral/images/logo-der.png}" /> </a>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a th:href="@{/home}"><i class="fa fa-dashboard"></i>
+					Home</a></li>
+			<li class="active">Erro <span th:text="${erro_numero}"></span></li>
+		</ol>
+	</section>
+
+	<section>
+		<div class="error-page">
+
+
+			<div class="error-content">
+				<div class="error-content-header">
+					<i class="fa fa-warning" th:classappend="${class_append}"></i> <span
+						th:text="${erro_titulo}"></span>
+					<h2 class="headline" th:classappend="${class_append}"
+						th:text="${erro_numero}"></h2>
+					<img height="100" th:src="@{/assets/geral/images/tenor.gif}" />
+
+					<p>
+						<span th:text="${erro_descricao}"></span> Talvez você queira
+						voltar a página principal <a th:href="@{/home}">Retornar à
+							página inicial </a>
+					</p>
+
+					<div>
+						<span>Se deseja enviar o erro para o responsável pelo
+							sistema, preencha o formulário abaixo</span>
+						<div th:replace="fragments/MensagemGeral :: mensagens_geral"></div>
+
+
+					</div>
+				</div>
+				<div class="error-content-body" th:text="${detalhe_tecnico}">
+
+				</div>
+			</div>
+
+		</div>
+	</section>
+</div>
+
+
+<script th:src="@{/assets/public/js/page_error.js}" class="page_js"></script>
+
+</html>

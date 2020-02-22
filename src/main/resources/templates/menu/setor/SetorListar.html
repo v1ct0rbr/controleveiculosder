@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	th:replace="layout/LayoutPadrao :: layout(~{::title},~{::link[class='page_style']},~{::script[class='page_js']},~{::div[id='conteudo']})">
+<head>
+<title>Setores</title>
+<link rel="stylesheet"
+	th:href="@{/assets/admin/css/page_setor_listar.css}" class="page_style" />
+</head>
+</head>
+
+<div id="conteudo">
+
+	<section class="content-header">
+		<h1>Setores</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i>Menu</a></li>
+			<li>Dados Auxiliares</li>
+			<li>Setores</li>
+			<li class="active">Cadastro</li>
+		</ol>
+	</section>
+
+	<section class="content">
+		<div class="box box-primary">
+			<div class="box-header with-border">
+				<h3 class="box-title">Listagem</h3>
+				<a class="pull-right" th:href="@{/{url}/novo(url=${url_base})}"><i
+					class="fa fa-list" aria-hidden="true"></i> Cadastra setor</a>
+			</div>
+			<div class="box-body">
+
+				<div class="tab-content clearfix">
+					<form method="get" class="form-inline" id="page_form"
+						th:action="@{/{url}(url=${url_base})}" th:object="${filtro}">
+
+						<div th:replace="fragments/MensagemGeral"></div>
+
+						<div class="form-group">
+							<input class="form-control" placeholder="Código" type="number"
+								autofocus="autofocus" th:field="*{codigo}" id="filtro_codigo"
+								max="65635" maxlength="10" />
+						</div>
+						<div class="form-group">
+							<input class="form-control" placeholder="Nome" id="filtro_nome"
+								autofocus="autofocus" th:field="*{nome}" />
+						</div>
+						<div class="form-group">
+							<select th:field="*{secretariaId}" class="form-control"
+								id="filtro_secretaria">
+								<option value="0">Selecione</option>
+								<option th:each="sec: ${todasSecretarias}" th:value="${sec.id}"
+									th:text="${sec}"></option>
+							</select>
+						</div>
+
+						<input type="hidden" th:field="*{sortBy}" id="sort_by" /> <input
+							type="hidden" th:field="*{sortByMethod}" id="sort_method" />
+						<div class="btn-group">
+							<button type="submit" class="btn btn-default">
+								<span class="glyphicon glyphicon-search"></span> Pesquisar
+							</button>
+							<button id="gerar_relatorio" type="submit" disabled="disabled"
+								class="btn btn-default" data-impressao="setores">
+								<i class="glyphicon glyphicon-print"></i> imprimir
+							</button>
+							<button type="button" class="btn btn-default" id="reset_filtro">
+								<i class="fa fa-eraser"></i> limpar
+							</button>
+						</div>
+
+					</form>
+					<br />
+					<div class="table-responsive">
+						<table class="table table-bordered table-striped">
+							<thead>
+								<tr>
+									<th class="text-center col-md-1"># <i data-option="2"
+										class="sort btn pull-right fa fa-sort-alpha-asc"
+										th:classappend="${(filtro.sortBy == 2?'active ':'') + (filtro.sortBy == 2 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+										id="sort_nome"></i>
+
+									</th>
+									<th class="text-center col-md-2">Nome <i data-option="1"
+										class="sort btn pull-right fa fa-sort-alpha-asc"
+										th:classappend="${(filtro.sortBy == 1?'active ':'') + (filtro.sortBy == 1 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+										id="sort_id"></i>
+									</th>
+									<th class="text-center col-md-2">Secretaria<i
+										data-option="3"
+										class="sort btn pull-right fa fa-sort-alpha-asc"
+										th:classappend="${(filtro.sortBy == 3?'active ':'') + (filtro.sortBy == 3 and filtro.sortByMethod == 2 ?'fa-sort-alpha-desc ':'fa-sort-alpha-asc ')}"
+										id="sort_id"></i></th>
+									<th class="text-center col-md-2">Contato</th>
+									<th class="text-center col-md-1">Opções</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="setor: ${page.content}">
+									<td class="text-center" th:text="${setor.id}"></td>
+									<td class="text-left" th:text="${setor.nome}"></td>
+									<td class="text-left" th:text="${setor.secretaria}"></td>
+									<td class="text-left"
+										th:text="${setor.telefone != null?setor.telefone:'---'}"></td>
+									<td class="text-center">
+										<div class="btn-group" role="group" aria-label="...">
+											<a class="btn btn-default"
+												th:href="@{/{url}/{id}(id=${setor.id},url=${url_base})}">
+												<span class="glyphicon glyphicon-pencil"
+												data-toggle="tooltip" data-placement="bottom" title="Editar"></span>
+											</a> <a class="btn btn-danger" data-toggle="modal"
+												data-target="#confirmacaoExclusaoModal"
+												th:attr="data-codigo=${setor.id}, data-descricao=${setor.nome}">
+												<span class="glyphicon glyphicon-remove"
+												data-toggle="tooltip" data-placement="top" title="Excluir"></span>
+											</a>
+										</div>
+
+									</td>
+								</tr>
+								<tr>
+									<td th:if="${#lists.isEmpty(page.content)}" colspan="5">Nenhum
+										setor foi encontrado</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<nav aria-label="Page navigation">
+
+						<ul class='pagination pagination-centered'>
+							<li th:class="${page.firstPage}?'disabled':''"><span
+								th:if='${page.firstPage}'>← Primeiro</span> <a
+								th:if='${not page.firstPage}'
+								th:href='@{${page.url}(page=0,size=${page.size},codigo=${codigo},nome=${nome},secretariaId=${secretariaId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'>←
+									Primeiro</a></li>
+							<li th:class="${page.hasPreviousPage}? '' : 'disabled'"><span
+								th:if='${not page.hasPreviousPage}'>«</span> <a
+								th:if='${page.hasPreviousPage}'
+								th:href='@{${page.url}(page=${page.number-2},size=${page.size},codigo=${codigo},nome=${nome},secretariaId=${secretariaId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'
+								title='Go to previous page'>«</a></li>
+							<li th:each='item : ${page.items}'
+								th:class="${item.current}? 'active' : ''"><span
+								th:if='${item.current}' th:text='${item.number}'>1</span> <a
+								th:if='${not item.current}'
+								th:href='@{${page.url}(page=${item.number-1},size=${page.size},codigo=${codigo},nome=${nome},secretariaId=${secretariaId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'><span
+									th:text='${item.number}'>1</span></a></li>
+							<li th:class="${page.hasNextPage}? '' : 'disabled'"><span
+								th:if='${not page.hasNextPage}'>»</span> <a
+								th:if='${page.hasNextPage}'
+								th:href='@{${page.url}(page=${page.number},size=${page.size},codigo=${codigo},nome=${nome},secretariaId=${secretariaId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'
+								title='Go to next page'>»</a></li>
+							<li th:class="${page.lastPage}? 'disabled' : ''"><span
+								th:if='${page.lastPage}'>Último →</span> <a
+								th:if='${not page.lastPage}'
+								th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size},codigo=${codigo},nome=${nome},secretariaId=${secretariaId},sortBy=${sortBy}, sortByMethod=${sortByMethod})}'>Último
+									→</a></li>
+						</ul>
+					</nav>
+
+
+				</div>
+			</div>
+			<div
+				th:insert="fragments/DialogoConfirmacaoExclusao :: dialogexclusao(base_url=${url_base})"></div>
+		</div>
+	</section>
+</div>
+
+<script th:src="@{/assets/admin/js/page_setor_listar.js}"
+	class="page_js"></script>
+</th:block>
+</html>
